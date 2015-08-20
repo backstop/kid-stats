@@ -1,0 +1,14 @@
+{
+  "mappings": {
+    "activity": {
+      "properties": {
+        "name": {"type": "string"},
+        "start": {"type": "date_time"},
+        "end": {"type": "date_time"},
+        "behavior": {"type": "string", "index": "not_analyzed"},
+        "purposefully_bad": {"type": "boolean"},
+        "note": {"type": "string"}
+      }
+    }
+  }
+}
