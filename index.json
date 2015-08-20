@@ -3,8 +3,8 @@
     "activity": {
       "properties": {
         "name": {"type": "string"},
-        "start": {"type": "date", "format": "date_time"},
-        "end": {"type": "date", "format": "date_time"},
+        "start": {"type": "date"},
+        "end": {"type": "date"},
         "behavior": {"type": "string", "index": "not_analyzed"},
         "purposefully_bad": {"type": "boolean"},
         "note": {"type": "string"}

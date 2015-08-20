@@ -1,5 +1,6 @@
 import argparse
 import datetime
+import requests
 from json import JSONEncoder, dumps
 from collections import namedtuple
 from random import randint, normalvariate, choice
@@ -53,13 +54,19 @@ def generate_records(num_days, per_day=8):
 def main():
     parser = argparse.ArgumentParser(description='Generate random data for kid-stats')
     parser.add_argument('--num_days', type=int, default=365)
+    parser.add_argument('--dump', action='store_true')
 
     args = parser.parse_args()
 
     records = [dumps(r, cls=MyEncoder) for r in generate_records(args.num_days)]
 
-    for r in records:
-        print r
+    if args.dump:
+        for r in records:
+            print r
+    else:
+        for r in records:
+           resp = requests.post('http://localhost:9200/kid-stats/activity', data=r)
+           print resp.json()
 
 if __name__ == '__main__':
     main()
