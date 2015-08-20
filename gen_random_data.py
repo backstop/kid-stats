@@ -1,9 +1,11 @@
 import argparse
 import datetime
 import requests
+from itertools import count, islice
 from json import JSONEncoder, dumps
 from collections import namedtuple
-from random import randint, normalvariate, choice
+from random import randint, normalvariate, choice, sample
+
 
 Activity = namedtuple('Activity', ['name', 'start', 'end', 'behavior', 'purposefully_bad', 'notes'])
 
@@ -21,9 +23,9 @@ class MyEncoder(JSONEncoder):
         if isinstance(obj, datetime.datetime):
             return obj.isoformat()
 
-
-def generate_name(option_count=6):
-    return 'Activity {}'.format(randint(0, option_count))
+def generate_names():
+    for i in count(1):
+        yield 'Activity {}'.format(i)
 
 def inc_time(avg_time=40, std_time=5):
     return datetime.timedelta(0, 0, 0, 0, normalvariate(avg_time, std_time))
@@ -36,18 +38,18 @@ def generate_behavior():
         pb = None
     return b, pb
 
-def generate_records(num_days, per_day=8):
+def generate_records(num_days, per_day=8, activity_count=12):
     records = []
+    all_activities = list(islice(generate_names(), activity_count))
     day = datetime.date(2013, 1, 1)
     for i in range(num_days):
         time = datetime.time(9)
-        for j in range(per_day):
-            name = generate_name()
+        for activity_name in sample(all_activities, per_day):
             start = datetime.datetime.combine(day, time)
             end = start + inc_time()
             time = end.time()
             behavior, purposefully_bad = generate_behavior()
-            records.append(Activity(name, start, end, behavior, purposefully_bad, None))
+            records.append(Activity(activity_name, start, end, behavior, purposefully_bad, None))
         day += datetime.timedelta(1)
     return records
 
