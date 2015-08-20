@@ -7,7 +7,7 @@ from collections import namedtuple
 from random import randint, normalvariate, choice, sample
 
 
-Activity = namedtuple('Activity', ['name', 'start', 'end', 'behavior', 'behavior_index', 'purposefully_bad', 'notes'])
+Activity = namedtuple('Activity', ['name', 'start', 'end', 'dow_index', 'behavior', 'behavior_index', 'behavior_mixed_index', 'purposefully_bad', 'notes'])
 
 
 class MyEncoder(JSONEncoder):
@@ -31,14 +31,16 @@ def inc_time(avg_time=40, std_time=5):
     return datetime.timedelta(0, 0, 0, 0, normalvariate(avg_time, std_time))
 
 def generate_behavior():
-    behaviors = ['Positive', 'Neutral', 'Negative']
-    bi = randint(0, len(behaviors) - 1)
-    b = behaviors[bi]
+    behaviors = ['Negative', 'Neutral', 'Positive']
+    bi = randint(- 1, len(behaviors) - 2)
+    b = behaviors[bi + 1]
     if b == 'Negative':
         pb = choice([True, False])
+        bmi = bi - (1 if pb else 0)
     else:
         pb = None
-    return b, bi - 1, pb
+        bmi = bi
+    return b, bi, pb, bmi
 
 def generate_records(num_days, per_day=8, activity_count=12):
     records = []
@@ -46,12 +48,13 @@ def generate_records(num_days, per_day=8, activity_count=12):
     day = datetime.date(2013, 1, 1)
     for i in range(num_days):
         time = datetime.time(9)
+        dow_index = day.weekday()
         for activity_name in sample(all_activities, per_day):
             start = datetime.datetime.combine(day, time)
             end = start + inc_time()
             time = end.time()
-            behavior, behavior_index, purposefully_bad = generate_behavior()
-            records.append(Activity(activity_name, start, end, behavior, behavior_index, purposefully_bad, None))
+            behavior, behavior_index, purposefully_bad, behavior_mixed_index = generate_behavior()
+            records.append(Activity(activity_name, start, end, dow_index, behavior, behavior_index, behavior_mixed_index, purposefully_bad, None))
         day += datetime.timedelta(1)
     return records
 

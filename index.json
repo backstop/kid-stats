@@ -5,8 +5,10 @@
         "name": {"type": "string", "index": "not_analyzed"},
         "start": {"type": "date"},
         "end": {"type": "date"},
+        "dow_index": {"type": "integer"},
         "behavior": {"type": "string", "index": "not_analyzed"},
         "behavior_index": {"type": "integer"},
+        "behavior_mixed_index": {"type": "integer"},
         "purposefully_bad": {"type": "boolean"},
         "note": {"type": "string"}
       }
