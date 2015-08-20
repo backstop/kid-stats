@@ -9,3 +9,7 @@ Kid Stats (aka ABC Tracker) is a hackathon project completely unrelated to Backs
 
     $ pip install requests
     $ python gen_random_data.py
+
+## Delete index
+
+    $ curl -XDELETE localhost:9200/kid-stats
