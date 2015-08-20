@@ -1,5 +1,5 @@
 # Kid Stats
-
+Kid Stats (aka ABC Tracker) is a hackathon project completely unrelated to Backstop, whatsoever.
 
 ## Create index
 
