@@ -36,7 +36,7 @@ def generate_behavior():
     b = behaviors[bi + 1]
     if b == 'Negative':
         pb = choice([True, False])
-        bmi = bi - (1 if pb else 0)
+        bmi = bi + (.5 if not pb else 0)
     else:
         pb = None
         bmi = bi
