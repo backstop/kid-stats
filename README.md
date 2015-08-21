@@ -1,6 +1,12 @@
 # Kid Stats
 Kid Stats (aka ABC Tracker) is a hackathon project completely unrelated to Backstop, whatsoever.
 
+## Start vagrant
+
+Make sure you have vagrant and virtualbox installed.
+
+    $ vagrant up
+
 ## Create index
 (change # to a number)
 
